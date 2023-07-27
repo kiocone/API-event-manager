@@ -1,17 +1,17 @@
 # Imports
 import mariadb
-import credentials
+import database.credentials
 
 
 def connect_db(
         user=None,
         password=None,
-        database=None,
+        database_name=None,
         host='localhost',
         port=3306
         ):
 
-    if not user or not password or not database:
+    if not user or not password or not database_name:
         print("Falta algun parametro de conexión")
         quit(1)
     # Connect to MariaDB Platform
@@ -21,7 +21,7 @@ def connect_db(
             password=password,
             host=host,
             port=port,
-            database=database
+            database=database_name
         )
         print("Successfuly database connection!")
         return conn
@@ -63,11 +63,11 @@ def query(q_str, *args):
     except mariadb.InterfaceError:
         cur.close()
         db_conn.close()
-        db_conn = connect_db(user=credentials[0], password=credentials[1], database="adminpatdb", host=credentials[2])
+        db_conn = connect_db(user=credentials[0], password=credentials[1], database_name="adminpatdb", host=credentials[2])
         cur = get_cursor(db_conn)
 
 
 credentials = credentials.get_credentials()
 
-db_conn = connect_db(user=credentials[0], password=credentials[1], database="adminpatdb", host=credentials[2])
+db_conn = connect_db(user=credentials[0], password=credentials[1], database_name="adminpatdb", host=credentials[2])
 cur = get_cursor(db_conn)

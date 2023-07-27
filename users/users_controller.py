@@ -1,18 +1,18 @@
 from flask import Blueprint, request
-import users_service
+from users.users_service import *
 
-users = Blueprint('users', __name__)
+users_bp = Blueprint('users', __name__)
 
 
-@users.get('/users')
+@users_bp.get('/users')
 def get_users():
-    response = users_service.get_users()
+    response = get_users()
     return response
 
 
-@users.get('/users/<int:index>')
+@users_bp.get('/users/<int:index>')
 def get_users_by_id(index):
-    response = users_service.get_user_by_id(index)
+    response = get_user_by_id(index)
     if response is False:
         response = {
                 "message": "User not found",
@@ -20,22 +20,23 @@ def get_users_by_id(index):
     return response
 
 
-@users.post('/users')
+@users_bp.post('/users')
 def create_user():
+    response = ""
     content_type = request.headers.get('Content-Type')
     if content_type == 'application/json':
-        response = users_service.create_user(request.json)
+        response = create_user(request.json)
     else:
         print('Content-Type not supported!')
 
-    #if len(request.form):
+    # if len(request.form):
     #    response = users_service.create_user(dict(request.json))
-    #elif request.data.decode():
+    # elif request.data.decode():
     #    response = {
     #            "message": "Data should come in form-data",
     #            "error": "Bad request"
     #        }, 400
-    #else:
+    # else:
     #    response = {
     #            "message": "There is no data",
     #            "error": "Bad request"
@@ -43,10 +44,10 @@ def create_user():
     return response
 
 
-@users.put('/users/<int:index>')
+@users_bp.put('/users/<int:index>')
 def update_user(index):
     if len(request.form):
-        respuesta = users_service.update_user(
+        respuesta = update_user(
             index,
             request.form.to_dict()
         )
@@ -57,17 +58,17 @@ def update_user(index):
     return respuesta
 
 
-@users.delete('/users/<int:index>')
+@users_bp.delete('/users/<int:index>')
 def delete_user(index):
-    respuesta = users_service.delete_user(index)
+    respuesta = delete_user(index)
     return respuesta
 
 
-@users.post('/users/<int:index>/update-password')
+@users_bp.post('/users/<int:index>/update-password')
 def update_password(index):
     password = request.form['password']
     new_password = request.form['new_password']
-    matched = users_service.update_password(index, password, new_password)
+    matched = update_password(index, password, new_password)
     if matched:
         response = {
                 "message": "Password updated",
@@ -80,12 +81,12 @@ def update_password(index):
     return response
 
 
-@users.post('/users/signin')
+@users_bp.post('/users/signin')
 def signin():
     # Pending implementaion of JWT strategy
     username = request.form['username']
     password = request.form['password']
-    response = users_service.signin(username, password)
+    response = signin(username, password)
     if response:
         response = {
                 "message": "Authentication Valid!",

@@ -6,24 +6,27 @@ from flask_cors import CORS
 
 # Controllers modules
 from users import users_controller
-#from pacientes import pacientes_controller
+# from pacientes import pacientes_controller
 
 # event loger
 today = str(datetime.datetime.now()).split()[0]
+
+
 def update_log(datos):
     try:
-      with open(f'event_log/{today}.txt', 'a') as archivo:
-        archivo.write(f'{datetime.datetime.now()} - {datos}\n')
+        with open(f'event_log/{today}.txt', 'a') as archivo:
+            archivo.write(f'{datetime.datetime.now()} - {datos}\n')
     except FileNotFoundError:
-      os.mkdir('event_log')
-      with open(f'./event_log/{today}.txt', 'a') as archivo:
-        archivo.write(f'{datetime.datetime.now()} - {datos}\n')
+        os.mkdir('event_log')
+        with open(f'./event_log/{today}.txt', 'a') as archivo:
+            archivo.write(f'{datetime.datetime.now()} - {datos}\n')
+
 
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
-app.register_blueprint(users_controller.users)
-#app.register_blueprint(pacientes_controller.pacientes)
+app.register_blueprint(users_controller.users_bp)
+# app.register_blueprint(pacientes_controller.pacientes)
 
 
 @app.get('/<parametro>')
