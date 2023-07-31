@@ -63,11 +63,11 @@ def query(q_str, *args):
     except mariadb.InterfaceError:
         cur.close()
         db_conn.close()
-        db_conn = connect_db(user=credentials[0], password=credentials[1], database_name="adminpatdb", host=credentials[2])
+        db_conn = connect_db(user=credentials[0], password=credentials[1], database_name="eventsDB", host=credentials[2])
         cur = get_cursor(db_conn)
 
 
 credentials = credentials.get_credentials()
 
-db_conn = connect_db(user=credentials[0], password=credentials[1], database_name="adminpatdb", host=credentials[2])
+db_conn = connect_db(user=credentials[0], password=credentials[1], database_name="eventsDB", host=credentials[2])
 cur = get_cursor(db_conn)

@@ -1,11 +1,12 @@
 import os
 import datetime
-from flask import Flask
+from flask import Flask, jsonify
+from flask_swagger import swagger
 from markupsafe import escape
 from flask_cors import CORS
 
 # Controllers modules
-from users import users_controller
+from events import events_controller
 # from pacientes import pacientes_controller
 
 # event loger
@@ -25,8 +26,17 @@ def update_log(datos):
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
-app.register_blueprint(users_controller.users_bp)
-# app.register_blueprint(pacientes_controller.pacientes)
+
+
+@app.route("/spec")
+def spec():
+    swag = swagger(app)
+    swag['info']['version'] = "1.0"
+    swag['info']['title'] = "Event manager API"
+    return jsonify(swag)
+
+
+app.register_blueprint(events_controller.events_bp)
 
 
 @app.get('/<parametro>')

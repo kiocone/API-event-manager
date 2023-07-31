@@ -7,34 +7,33 @@ from shared import utilities
 salt = bcrypt.gensalt(10)
 
 
-def get_users():
-    resp = query(f"SELECT * from users;")
+def get_events():
+    resp = query(f"SELECT * from events;")
     return resp
 
 
-def get_user_by_id(*args):
+def get_event_by_id(*args):
     response = query(f"SELECT * FROM users where id = ?;", *args)
     if types.NoneType == type(response):
         response = [False]
     return response[0]
 
 
-def delete_user(index):
+def delete_event(index):
     query(f"DELETE from users WHERE id = {index};")
     return {
                 "message": "User deleted",
             }, 200
 
 
-def create_user(payload):
-    payload['password'] = bcrypt.hashpw(payload['password'], salt)
+def create_event(payload):
     value_set = utilities.payload_to_valueset(payload)
-    print(value_set)
-    query(f"INSERT INTO users SET {value_set};")
+    query_response = query(f"INSERT INTO events SET {value_set};")
+    print(query_response)
     return {"message": "User created"}, 200
 
 
-def update_user(p_id: int, payload):
+def update_event(p_id: int, payload):
     value_set = utilities.payload_to_valueset(payload)
     query(f"UPDATE users set {value_set} WHERE id = {p_id};")
     return {"message": "User updated"}, 200
