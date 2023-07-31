@@ -5,7 +5,6 @@
 
 # Python required modules 
 Install via PIP
-- bcrypt
 - Flask
 - Flask-Cors
 - flask-swagger

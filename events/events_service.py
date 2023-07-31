@@ -1,10 +1,7 @@
 import types
 from database import query
-import bcrypt
 
 from shared import utilities
-
-salt = bcrypt.gensalt(10)
 
 
 def get_events():
