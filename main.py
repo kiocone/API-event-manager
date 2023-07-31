@@ -39,7 +39,7 @@ app.register_blueprint(events_controller.events_bp)
 
 @app.route('/<parametro>')
 def panel_param(parametro):
+    parametro = escape(parametro)
     update_log(parametro)
     return f"<h1>404: {parametro} no se encuentra</h1><p>La ruta [/{parametro}] no esta definida</p>", 404
-
 

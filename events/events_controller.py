@@ -32,6 +32,9 @@ def all_events():
                             managed:
                                 type: boolean
                                 description: wether the event require management or not
+                            deleted:
+                                type: boolean
+                                description: wether the event is soft deleted or not
     """
     response = get_events()
     if response is None:
