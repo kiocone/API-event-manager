@@ -7,13 +7,11 @@ from flask_cors import CORS
 
 # Controllers modules
 from events import events_controller
-# from pacientes import pacientes_controller
+
 
 # event loger
-today = str(datetime.datetime.now()).split()[0]
-
-
 def update_log(datos):
+    today = str(datetime.datetime.now()).split()[0]
     try:
         with open(f'event_log/{today}.txt', 'a') as archivo:
             archivo.write(f'{datetime.datetime.now()} - {datos}\n')
@@ -39,12 +37,9 @@ def spec():
 app.register_blueprint(events_controller.events_bp)
 
 
-@app.get('/<parametro>')
+@app.route('/<parametro>')
 def panel_param(parametro):
     update_log(parametro)
-    return f"<h1>{parametro}</h1><p>La ruta [/{parametro}] no esta definida</p>"
+    return f"<h1>404: {parametro} no se encuentra</h1><p>La ruta [/{parametro}] no esta definida</p>", 404
 
 
-@app.get('/')
-def panel():
-    return "<h1>panel</h1>"
