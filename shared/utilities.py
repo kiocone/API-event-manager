@@ -5,7 +5,10 @@ def payload_to_valueset(payload):
     value_set = ""
     for value in dict(payload).keys():
         if key_value_valid(value, dict(payload)[value]):
-            value_set += f"{value}='{dict(payload)[value]}',"
+            if str(dict(payload)[value]).lower() == "true" or str(dict(payload)[value]).lower() == "false":
+                value_set += f"{value}={str(dict(payload)[value]).lower()},"
+            else:
+                value_set += f"{value}='{dict(payload)[value]}',"
     return value_set[0:-1]
 
 
@@ -21,9 +24,3 @@ def key_value_valid(key, value):
     else:
         return str(key).strip() != "" and str(value).strip() != ""
 
-
-def generar_codigo_inf(tipo_inf, ult_cod):
-    fecha = datetime.datetime.now()
-    year = str(fecha.year)[2:4]
-    month = f"0{fecha.month}"[0:2]
-    return f"{tipo_inf}{year}{month}-{ult_cod}"

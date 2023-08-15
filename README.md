@@ -25,7 +25,7 @@ PRIMARY KEY (id)
 );</code><br>
 
 # Documentation
-<p>The endpoints documentation will be described in the URL: <a href="localhost:5000/spec">swagger</a></p>
+<p>The endpoints documentation will be described in a SwaggerUI at the URL: <a href="localhost:5000/api/docs">SwaggerUI</a></p>
 
 # Run the API in dev mode
 flask --app main run --host=0.0.0.0 --debug
